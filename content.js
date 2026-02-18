@@ -20,92 +20,132 @@
     // Class applied to highlighted names
     const HL_CLASS = "epstein-highlight";
 
-    /* ── Build a single regex that matches any name ──────────── */
+    /* ── Helpers ────────────────────────────────────────────── */
 
-    // Sort longest-first so "Jean-Luc Brunel" matches before a hypothetical
-    // shorter substring.
-    const sortedNames = [...EPSTEIN_LIST].sort(
-        (a, b) => b.name.length - a.name.length
-    );
-
-    // Escape special regex chars in names (handles accented chars, hyphens, etc.)
     function escapeRegex(str) {
         return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
 
-    // Build pattern: replace spaces with \s+ so "Bill  Clinton" or
-    // "Bill\nClinton" still matches.
-    const pattern = new RegExp(
-        "(" +
-        sortedNames
-            .map((e) => escapeRegex(e.name).replace(/\\ /g, "\\s+"))
-            .join("|") +
-        ")",
-        "gi"
-    );
+    function makePattern(nameList, flags) {
+        const sorted = [...nameList].sort(
+            (a, b) => b.name.length - a.name.length
+        );
+        return new RegExp(
+            "(" +
+            sorted
+                .map((e) => escapeRegex(e.name).replace(/ /g, "\\s+"))
+                .join("|") +
+            ")",
+            flags
+        );
+    }
 
-    // Quick lookup: normalised name → anchor
-    // Normalise by lowercasing + collapsing whitespace
-    const anchorMap = new Map();
+    /* ── Build regexes ─────────────────────────────────────── */
+
+    // Case-insensitive pattern for the main list
+    const mainPattern = makePattern(EPSTEIN_LIST, "gi");
+
+    // Case-sensitive pattern for names that must match exact casing
+    // (e.g. "Trump" should not match "trump card")
+    const csPattern =
+        typeof EPSTEIN_LIST_CASE_SENSITIVE !== "undefined" &&
+            EPSTEIN_LIST_CASE_SENSITIVE.length > 0
+            ? makePattern(EPSTEIN_LIST_CASE_SENSITIVE, "g")
+            : null;
+
+    /* ── Anchor lookup maps ────────────────────────────────── */
+
+    const anchorMapCI = new Map(); // case-insensitive (lowercased keys)
     for (const entry of EPSTEIN_LIST) {
-        anchorMap.set(entry.name.toLowerCase(), entry.anchor);
+        anchorMapCI.set(entry.name.toLowerCase(), entry.anchor);
     }
 
-    /** Return the anchor for a matched string (handles multi-space / newline) */
-    function lookupAnchor(matchedText) {
-        const key = matchedText.replace(/\s+/g, " ").trim().toLowerCase();
-        return anchorMap.get(key);
+    const anchorMapCS = new Map(); // case-sensitive (exact keys)
+    if (typeof EPSTEIN_LIST_CASE_SENSITIVE !== "undefined") {
+        for (const entry of EPSTEIN_LIST_CASE_SENSITIVE) {
+            anchorMapCS.set(entry.name, entry.anchor);
+        }
     }
 
-    /* ── Highlight a single text node ────────────────────────── */
+    function lookupAnchor(matchedText, caseSensitive) {
+        const normalised = matchedText.replace(/\s+/g, " ").trim();
+        if (caseSensitive) {
+            return anchorMapCS.get(normalised);
+        }
+        return anchorMapCI.get(normalised.toLowerCase());
+    }
 
-    function highlightTextNode(textNode) {
+    /* ── Create a highlight span ───────────────────────────── */
+
+    function createHighlight(matchedName, anchor) {
+        const url = WIKI_BASE + anchor;
+
+        const span = document.createElement("span");
+        span.className = HL_CLASS;
+        span.textContent = matchedName;
+        span.title = "Named in the Epstein files — click for details";
+        span.dataset.epsteinUrl = url;
+        span.setAttribute("role", "link");
+        span.style.cursor = "pointer";
+
+        span.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.open(url, "_blank", "noopener,noreferrer");
+        });
+
+        return span;
+    }
+
+    /* ── Highlight a single text node with one regex ────────── */
+
+    function applyPattern(textNode, regex, caseSensitive) {
         const text = textNode.nodeValue;
-        if (!pattern.test(text)) return;
-        pattern.lastIndex = 0; // reset after .test()
+        if (!regex.test(text)) return false;
+        regex.lastIndex = 0;
 
         const frag = document.createDocumentFragment();
         let lastIndex = 0;
         let match;
+        let didMatch = false;
 
-        while ((match = pattern.exec(text)) !== null) {
-            // Text before the match
+        while ((match = regex.exec(text)) !== null) {
+            const matchedName = match[1];
+            const anchor = lookupAnchor(matchedName, caseSensitive);
+            if (!anchor) continue;
+
+            didMatch = true;
+
             if (match.index > lastIndex) {
                 frag.appendChild(
                     document.createTextNode(text.slice(lastIndex, match.index))
                 );
             }
 
-            const matchedName = match[1];
-            const anchor = lookupAnchor(matchedName);
-            const url = WIKI_BASE + anchor;
-
-            // Use <span> instead of <a> to avoid invalid nested-link HTML
-            const span = document.createElement("span");
-            span.className = HL_CLASS;
-            span.textContent = matchedName;
-            span.title = "Named in the Epstein files — click for details";
-            span.dataset.epsteinUrl = url;
-            span.setAttribute("role", "link");
-            span.style.cursor = "pointer";
-
-            // Open Wikipedia section on click
-            span.addEventListener("click", (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                window.open(url, "_blank", "noopener,noreferrer");
-            });
-
-            frag.appendChild(span);
-            lastIndex = pattern.lastIndex;
+            frag.appendChild(createHighlight(matchedName, anchor));
+            lastIndex = regex.lastIndex;
         }
 
-        // Remaining text after last match
+        if (!didMatch) return false;
+
         if (lastIndex < text.length) {
             frag.appendChild(document.createTextNode(text.slice(lastIndex)));
         }
 
         textNode.parentNode.replaceChild(frag, textNode);
+        return true;
+    }
+
+    /* ── Process a single text node (both patterns) ────────── */
+
+    function highlightTextNode(textNode) {
+        // Try main (case-insensitive) pattern first
+        const replaced = applyPattern(textNode, mainPattern, false);
+
+        // If the main pattern didn't replace this node, try case-sensitive
+        if (!replaced && csPattern) {
+            applyPattern(textNode, csPattern, true);
+        }
     }
 
     /* ── Walk & process a subtree ────────────────────────────── */
@@ -116,9 +156,7 @@
                 const parent = node.parentElement;
                 if (!parent) return NodeFilter.FILTER_REJECT;
                 if (SKIP_TAGS.has(parent.tagName)) return NodeFilter.FILTER_REJECT;
-                // Skip if this node is inside an already-highlighted span
                 if (parent.closest("." + HL_CLASS)) return NodeFilter.FILTER_REJECT;
-                // Skip empty / whitespace-only nodes
                 if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
                 return NodeFilter.FILTER_ACCEPT;
             },

@@ -149,6 +149,8 @@ const EPSTEIN_LIST = [
   { name: "Jean Todt", anchor: "Jean_Todt" },
   { name: "Mark Tramo", anchor: "Mark_Tramo" },
   { name: "Robert Trivers", anchor: "Robert_Trivers" },
+  { name: "Donald J. Trump", anchor: "Donald_Trump" },
+  { name: "President Trump", anchor: "Donald_Trump" },
   { name: "Donald Trump", anchor: "Donald_Trump" },
   { name: "Donald Trump Jr.", anchor: "Donald_Trump_Jr." },
   { name: "Eric Trump", anchor: "Eric_Trump" },
@@ -164,4 +166,13 @@ const EPSTEIN_LIST = [
   { name: "Michael Wolff", anchor: "Michael_Wolff" },
   { name: "Mark Zuckerberg", anchor: "Mark_Zuckerberg" },
   { name: "Jacob Zuma", anchor: "Jacob_Zuma" },
+];
+
+/**
+ * Case-sensitive names — these are matched with exact casing only.
+ * Used for short/generic words like "Trump" that would false-positive
+ * if matched case-insensitively (e.g. "trump card").
+ */
+const EPSTEIN_LIST_CASE_SENSITIVE = [
+  { name: "Trump", anchor: "Donald_Trump" },
 ];
