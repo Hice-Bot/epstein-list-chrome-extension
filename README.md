@@ -20,4 +20,4 @@ The extension injects a content script on every page that:
 
 ## Names Tracked
 
-The extension currently tracks **64 names** from the Epstein files, including Bill Clinton, Bill Gates, Prince Andrew, Ghislaine Maxwell, Alan Dershowitz, and many more. See [`names.js`](names.js) for the full list.
+The extension currently tracks **155 names** from the Epstein files, including Bill Clinton, Bill Gates, Prince Andrew, Ghislaine Maxwell, Donald Trump, Elon Musk, Mark Zuckerberg, and many more. See [`names.js`](names.js) for the full list.
