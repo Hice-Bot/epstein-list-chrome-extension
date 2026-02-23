@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Epstein List Highlighter — Chrome Extension</title>
-    <meta name="description" content="A Chrome extension that identifies people named in the Epstein files on any webpage you visit.">
+    <meta name="description"
+        content="A Chrome extension that identifies people named in the Epstein files on any webpage you visit.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -179,7 +183,7 @@
             font-weight: 300;
         }
 
-        .section-body p + p {
+        .section-body p+p {
             margin-top: 16px;
         }
 
@@ -419,6 +423,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- Header -->
@@ -428,8 +433,9 @@
                 <span class="logo-dot"></span>
                 Epstein List Highlighter
             </div>
-            <a href="https://github.com/Hice-Bot/epstein-list-chrome-extension" class="header-link" target="_blank" rel="noopener">
-                GitHub →
+            <a href="https://chromewebstore.google.com/detail/epstein-list-highlighter/bmcgpglmhekmokglgjmkkbmgheebmdao?authuser=0&hl=en"
+                class="header-link" target="_blank" rel="noopener">
+                Add to Chrome →
             </a>
         </div>
     </header>
@@ -445,7 +451,7 @@
             </p>
             <div class="hero-image">
                 <img src="images/hero-banner.png"
-                     alt="Screenshot showing the Epstein List Highlighter extension in action, highlighting names like Bill Clinton, Donald Trump, Prince Andrew, and Bill Gates on a webpage">
+                    alt="Screenshot showing the Epstein List Highlighter extension in action, highlighting names like Bill Clinton, Donald Trump, Prince Andrew, and Bill Gates on a webpage">
             </div>
         </div>
     </section>
@@ -499,20 +505,20 @@
             <div class="section-label">In action</div>
             <h2 class="section-heading">What it looks like.</h2>
             <div class="section-body">
-                <p>The extension highlights names directly in the page content without disrupting the reading experience.</p>
+                <p>The extension highlights names directly in the page content without disrupting the reading
+                    experience.</p>
             </div>
 
             <div class="screenshot-grid">
                 <div class="screenshot-item">
                     <img src="images/screenshot-wikipedia.png"
-                         alt="Wikipedia article with highlighted names including Donald Trump, Donald Trump Jr., Eric Trump, Churkin, Jagland, and Boris Nikolic">
+                        alt="Wikipedia article with highlighted names including Donald Trump, Donald Trump Jr., Eric Trump, Churkin, Jagland, and Boris Nikolic">
                     <div class="screenshot-caption">
                         Wikipedia — Names are highlighted in context, including headings and body text.
                     </div>
                 </div>
                 <div class="screenshot-item">
-                    <img src="images/screenshot-dark.png"
-                         alt="Extension highlighting names on a dark-themed page">
+                    <img src="images/screenshot-dark.png" alt="Extension highlighting names on a dark-themed page">
                     <div class="screenshot-caption">
                         The extension works across all websites, adapting to both light and dark page styles.
                     </div>
@@ -530,28 +536,29 @@
             <div class="install-steps">
                 <div class="install-step">
                     <div class="step-number">1</div>
-                    <div class="step-text"><strong>Download the extension</strong> from the Chrome Web Store or clone the GitHub repository.</div>
+                    <div class="step-text"><strong>Add the extension</strong> to your browser from the Chrome Web Store.
+                    </div>
                 </div>
                 <div class="install-step">
                     <div class="step-number">2</div>
-                    <div class="step-text">If loading manually, open <strong>chrome://extensions</strong> and enable Developer mode.</div>
+                    <div class="step-text"><strong>Browse normally.</strong> Names from the list will be highlighted
+                        automatically on every webpage you visit.</div>
                 </div>
                 <div class="install-step">
                     <div class="step-number">3</div>
-                    <div class="step-text">Click <strong>Load unpacked</strong> and select the extension folder.</div>
-                </div>
-                <div class="install-step">
-                    <div class="step-number">4</div>
-                    <div class="step-text"><strong>Browse normally.</strong> Names from the list will be highlighted automatically on every page.</div>
+                    <div class="step-text"><strong>Click any highlighted name</strong> to instantly view their
+                        background documentation on Wikipedia.</div>
                 </div>
             </div>
 
             <div class="install-cta">
-                <a href="https://github.com/Hice-Bot/epstein-list-chrome-extension" class="btn btn-primary" target="_blank" rel="noopener">
-                    View on GitHub
+                <a href="https://chromewebstore.google.com/detail/epstein-list-highlighter/bmcgpglmhekmokglgjmkkbmgheebmdao?authuser=0&hl=en"
+                    class="btn btn-primary" target="_blank" rel="noopener">
+                    Add to Chrome
                 </a>
-                <a href="https://github.com/Hice-Bot/epstein-list-chrome-extension/archive/refs/heads/master.zip" class="btn btn-secondary">
-                    Download ZIP
+                <a href="https://github.com/Hice-Bot/epstein-list-chrome-extension" class="btn btn-secondary"
+                    target="_blank" rel="noopener">
+                    View on GitHub
                 </a>
             </div>
         </div>
@@ -563,7 +570,8 @@
             <div class="section-label">Currently tracking</div>
             <h2 class="section-heading">155+ names from the Epstein files.</h2>
             <div class="section-body">
-                <p>The following individuals appear in publicly released documents connected to the Epstein case. Inclusion on this list reflects public record, not an assertion of wrongdoing.</p>
+                <p>The following individuals appear in publicly released documents connected to the Epstein case.
+                    Inclusion on this list reflects public record, not an assertion of wrongdoing.</p>
             </div>
 
             <div class="names-grid">
@@ -622,7 +630,9 @@
             </div>
 
             <p class="names-note">
-                Source: <a href="https://en.wikipedia.org/wiki/List_of_people_named_in_the_Epstein_files" target="_blank" rel="noopener" style="color: var(--text-secondary);">Wikipedia — List of people named in the Epstein files</a>
+                Source: <a href="https://en.wikipedia.org/wiki/List_of_people_named_in_the_Epstein_files"
+                    target="_blank" rel="noopener" style="color: var(--text-secondary);">Wikipedia — List of people
+                    named in the Epstein files</a>
             </p>
         </div>
     </section>
@@ -632,12 +642,16 @@
         <div class="container">
             <p>Epstein List Highlighter is open source and free to use.</p>
             <div class="footer-links">
-                <a href="https://github.com/Hice-Bot/epstein-list-chrome-extension" target="_blank" rel="noopener">GitHub</a>
-                <a href="https://github.com/Hice-Bot/epstein-list-chrome-extension/blob/master/PRIVACY_POLICY.md" target="_blank" rel="noopener">Privacy Policy</a>
-                <a href="https://en.wikipedia.org/wiki/List_of_people_named_in_the_Epstein_files" target="_blank" rel="noopener">Wikipedia Source</a>
+                <a href="https://github.com/Hice-Bot/epstein-list-chrome-extension" target="_blank"
+                    rel="noopener">GitHub</a>
+                <a href="https://github.com/Hice-Bot/epstein-list-chrome-extension/blob/master/PRIVACY_POLICY.md"
+                    target="_blank" rel="noopener">Privacy Policy</a>
+                <a href="https://en.wikipedia.org/wiki/List_of_people_named_in_the_Epstein_files" target="_blank"
+                    rel="noopener">Wikipedia Source</a>
             </div>
         </div>
     </footer>
 
 </body>
+
 </html>

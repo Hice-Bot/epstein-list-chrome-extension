@@ -4,6 +4,10 @@ A Chrome extension that identifies people named in the Epstein files on any webp
 
 ## Install
 
+**[Download from the Chrome Web Store](https://chromewebstore.google.com/detail/epstein-list-highlighter/bmcgpglmhekmokglgjmkkbmgheebmdao?authuser=0&hl=en)**
+
+### Manual Install (Developer Mode)
+
 1. Download or clone this repo
 2. Open `chrome://extensions` in Chrome
 3. Enable **Developer mode** (top-right toggle)
