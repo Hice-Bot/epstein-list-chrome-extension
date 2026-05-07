@@ -1,0 +1,22 @@
+{
+  "name": "promo-video",
+  "version": "1.0.0",
+  "description": "Remotion promo video for Epstein List Highlighter",
+  "scripts": {
+    "studio": "npx remotion studio src/index.ts",
+    "render": "npx remotion render src/index.ts EpsteinListPromo out/promo.mp4",
+    "voiceover": "node --env-file=.env --strip-types generate-voiceover.ts"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.424",
+    "@remotion/transitions": "^4.0.424",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "remotion": "^4.0.424"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
+    "typescript": "^5.7.0"
+  }
+}
